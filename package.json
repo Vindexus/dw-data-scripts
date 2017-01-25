@@ -9,6 +9,7 @@
   "author": "Colin \"Vindexus\" Kierans",
   "license": "MIT",
   "dependencies": {
+    "dungeonworld-data": "^1.0.3",
     "handlebars": "^4.0.6"
   }
 }
