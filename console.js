@@ -1,3 +1,20 @@
+var mdlogBuilder = require('mdlog');
+var mdlog = mdlogBuilder({
+  "code": {
+    "color": "black"
+  },
+  "inlineCode": {
+    "color": "black",
+    "background": "white"
+  },
+  "link": {
+    "color": "magenta"
+  },
+  "image": {
+    "color": "cyan"
+  }
+})
+
 var colors = require('colors')
 colors.width = 80
 
@@ -29,5 +46,7 @@ colors.label = function (lbl, msg) {
 }
 
 colors.log = console.log
+
+colors.md = mdlog
 
 module.exports = colors

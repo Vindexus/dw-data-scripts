@@ -1,6 +1,9 @@
 var console = require('./console')
 var handlebars = require('handlebars')
 var dw = require('dungeonworld-data')
+var mdlogBuilder = require('mdlog');
+var mdlog = mdlogBuilder()
+
 
 var helpers = dw.helpers
 
@@ -20,7 +23,7 @@ handlebars.registerHelper('move', function (key) {
   var move = dw.rawData.moves[key]
   var name = move.name
   var descWords = move.description.trim().split(/\s+/).length;
-  return move.name.bold + (' (' + descWords + ' words)').gray
+  return move.name + (' _(' + descWords + ' words)_').gray
 })
 
 
@@ -32,5 +35,5 @@ toDisplay.forEach(function (key) {
 
   console.hr2()
   console.log((move.name.bold))
-  console.log(description)
+  console.md(description)
 })

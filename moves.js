@@ -31,7 +31,8 @@ console.header("move with the shortest description")
 console.log(console.white(shortestDescription.name) + " @ " + console.green(shortestDescription.description.length) + " characters\n" + console.gray(shortestDescription.description))
 
 console.header("move with the longest description")
-console.log(console.white(longestDesc.name) + " @ " + console.red(longestDesc.description.length) + " characters\n " + console.gray(longestDesc.description))
+console.log(console.white(longestDesc.name) + " @ " + console.red(longestDesc.description.length) + " characters")
+console.md(longestDesc.description)
 
 //==================================================================
 // Find all the moves the have the "replaces" key, that point to another move
