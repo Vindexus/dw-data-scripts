@@ -60,7 +60,7 @@ console.label("Num Moves", classMoves.length)
 //to see if they have "multiclass_dabbler" anywhere
 //and print out the result
 var dabblerLevel = 0
-var dabblerMoves = ['multiclass_dabbler', 'multiclass_initiate']
+var dabblerMoves = ['multiclass_dabbler', 'multiclass_initiate', 'multiclass_master']
 for(var j = 0; j < classMoves.length; j++) {
   if(dabblerMoves.indexOf(classMoves[j].key) >= 0) {
     dabblerLevel++
