@@ -1,4 +1,4 @@
-var console = require('./console')
+var console = require('./lib/console')
 var handlebars = require('handlebars')
 var dw = require('dungeonworld-data')
 var mdlogBuilder = require('mdlog');

@@ -2,7 +2,7 @@
 This takes the moves from the Dungeon World Data, and queries and displays it in different ways.
 */
 var dw = require('dungeonworld-data')
-var console = require('./console')
+var console = require('./lib/console')
 
 //Get the parsed data, which replaces "{{tag 'near'}}" with "near"
 var basicData = dw.basicData
@@ -11,8 +11,12 @@ var basicData = dw.basicData
 var moves = []
 var moveKeys = Object.keys(basicData.moves)
 moveKeys.sort()
-moves = moveKeys.map(function (k) {
+moves = moveKeys.filter(function (k) {
+  return k !== undefined
+}).map(function (k) {
   return basicData.moves[k]
+}).filter(function (move) {
+  return move != null && typeof(move) != 'string';
 })
 
 var movesByDescLen = moves.sort(function (a, b) {

@@ -1,5 +1,5 @@
 var dw = require('dungeonworld-data')
-var console = require('./console')
+var console = require('./lib/console')
 
 for(var k in dw.basicData.equipment) {
   var item = dw.basicData.equipment[k]
