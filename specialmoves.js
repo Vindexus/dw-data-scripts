@@ -1,5 +1,5 @@
 var dw = require('dungeonworld-data')
-var console = require('./console')
+var console = require('./lib/console')
 
 var basicData = dw.basicData
 console.h1("Special Moves")
