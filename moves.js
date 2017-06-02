@@ -54,8 +54,13 @@ var replaceableMoves = moves.reduce(function (atlas, move) {
   return atlas
 }, {})
 
-console.header("moves that can be replaced")
+console.header("some moves that can be replaced")
+var numShown = 0;
 for(var key in replaceableMoves) {
   var rm = replaceableMoves[key]
-  console.log(rm.move.name + ' is replaceable by: ' + rm.replacedBy.map(function (m) { return m.name }).join(", "))
+  numShown++;
+  console.log(rm.move.name.bold + ' is replaceable by ' + rm.replacedBy.map(function (m) { return m.name.bold }).join(" and "))
+  if(numShown > 10) {
+    break;
+  }
 }

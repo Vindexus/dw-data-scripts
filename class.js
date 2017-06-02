@@ -1,5 +1,6 @@
 var dw = require('dungeonworld-data')
 var console = require('./lib/console')
+var {elipses, rightpad} = require('./lib/helpers');
 
 var cname = process.argv[2]
 
@@ -11,39 +12,9 @@ if(!cname || cname.length == 0) {
 
 var cls = dw.basicData.classes[cname]
 
-console.header(cls.name)
-console.log(cls.description.substr(0, 50) + '...')
-
-//Display some basic stats
-console.hr2()
-console.label("Base HP", cls.base_hp)
-console.label("Base Load", cls.load)
-console.log("Look".yellow + " " + "choose one from each".gray)
-cls.looks.forEach(function (looks, i) {
-  console.log("   %s", looks.join(", "))
-})
-
-//List their races and moves
-if(cls.race_moves && cls.race_moves.length) {
-  console.log("Race Options".yellow)
-  cls.race_moves.forEach(function (rm) {
-    console.log("   %s, %s", rm.name, rm.description.gray)
-  })
-}
-
-//List out their potential alignments
-console.log(console.yellow("Alignments"))
-if(cls.alignments_list && cls.alignments_list.length > 0) {
-  cls.alignments_list.forEach(function (alignment) { 
-    console.log("   %s: %s", alignment.name, alignment.description.gray)
-  })
-}
-else {
-  console.log(cls.name + ' has no alignments'.red)
-}
 
 //Let's combine all the class's moves into one array
-var moveLists = ['starting_moves', 'advanced_moves_1', 'advanced_moves_2']
+var moveLists = ['starting_moves', 'race_moves', 'advanced_moves_1', 'advanced_moves_2']
 var classMoves = []
 for(var i = 0; i < moveLists.length; i++) {
   var key = moveLists[i]
@@ -54,27 +25,32 @@ for(var i = 0; i < moveLists.length; i++) {
   classMoves = classMoves.concat(moves)
 }
 
-console.label("Num Moves", classMoves.length)
+
+console.header(cls.name)
+console.log(elipses(cls.description, 80))
+
+//Display some basic stats
+console.hr2()
+console.labeldots("Base HP", cls.base_hp)
+console.labeldots("Damage", cls.damage)
+console.labeldots("Base Load", cls.load)
+console.labeldots("Total Moves", classMoves.length)
+console.labeldots("Race Moves", cls.race_moves.length);
+console.labeldots("Starting Moves", cls.starting_moves.length);
+console.labeldots("Level 2-5 Moves", cls.advanced_moves_1.length);
+console.labeldots("Level 6-10 Moves", cls.advanced_moves_2.length);
 
 //Search through all of their starting and advanced moves
 //to see if they have "multiclass_dabbler" anywhere
 //and print out the result
 var dabblerLevel = 0
-var dabblerMoves = ['multiclass_dabbler', 'multiclass_initiate', 'multiclass_master']
+var dabblerMoves = ['multiclass_dabbler', 'multiclass_initiate', 'multiclass_master', 'special_trick']
 for(var j = 0; j < classMoves.length; j++) {
   if(dabblerMoves.indexOf(classMoves[j].key) >= 0) {
     dabblerLevel++
   }
 }
-var status = "no".red
-if(dabblerLevel >= 1) {
-  status = "YES".green
-}
-
-if(dabblerLevel > 1) {
-  status += " " + ("(x" + dabblerLevel + ")").bold
-}
-console.label("Multiclass Dabbler?", status)
+console.labeldots("Multiclass Moves", dabblerLevel)
 
 //Count all moves that mention "Parley"
 //This would be more accurate if you used the raw game data and searched for "{{move 'parley'}}" instead of through the basic data
@@ -86,7 +62,7 @@ var parleyMoves = classMoves.reduce(function (num, move) {
   }
   return num
 }, 0)
-console.label("Parley Moves", parleyMoves)
+console.labeldots("Parley Moves", parleyMoves)
 
 var hnsMoves = classMoves.reduce(function (num, move) {
   if(move.description.indexOf('Hack & Slash') >= 0) {
@@ -94,11 +70,50 @@ var hnsMoves = classMoves.reduce(function (num, move) {
   }
   return num
 }, 0)
-console.label("Hack & Slash Moves", hnsMoves)
+console.labeldots("Hack & Slash Moves", hnsMoves)
 
-console.header("gear choices")
+console.log("Look".red + " " + "choose one from each".gray)
+cls.looks.forEach(function (looks, i) {
+  console.log("   %s", looks.join(", "))
+})
+
+//List their races and moves
+if(cls.race_moves && cls.race_moves.length) {
+  console.log("Race".cyan)
+  cls.race_moves.forEach(function (rm) {
+    console.log("   %s: %s", rm.name, elipses(rm.description, 80 - rm.name.length - 6).gray)
+  })
+}
+
+//List their possible names
+if(cls.names) {
+  console.log("Names".green)
+  for(var race in cls.names) {
+    console.log("   %s: %s", race.toUpperCase().substr(0,1) + race.substr(1), cls.names[race].join(', ').gray)
+  }
+}
+
+//List out their potential alignments
+console.log(console.magenta("Alignments"))
+if(cls.alignments_list && cls.alignments_list.length > 0) {
+  cls.alignments_list.forEach(function (alignment) { 
+    console.log("   %s: %s", alignment.name, alignment.description.gray)
+  })
+}
+else {
+  console.log(cls.name + ' has no alignments'.red)
+}
+
+
+console.h2("STARTING MOVES")
+cls.starting_moves.forEach((move) => {
+  console.log(rightpad(move.name, 20, '.'), elipses(move.description, 59).gray);
+});
+
+console.h2("GEAR CHOICES")
 cls.gear_choices.forEach(function (gc) {
   console.log(gc.label.bold);
-  console.log(gc.list.join("\n"));
-  console.log(" ");
+  console.log(gc.list.map(function (choice) {
+    return " " + choice
+  }).join("\n"));
 })
