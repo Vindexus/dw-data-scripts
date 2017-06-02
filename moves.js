@@ -31,11 +31,12 @@ var movesByDescLen = moves.sort(function (a, b) {
 var shortestDescription = movesByDescLen[0]
 var longestDesc = movesByDescLen[movesByDescLen.length-1]
 
-console.header("move with the shortest description @ " + console.green(shortestDescription.description.length) + " character")
-console.move(shortestDescription)
+console.header("move with the shortest description")
+console.log(console.white(shortestDescription.name) + " @ " + console.green(shortestDescription.description.length) + " characters\n" + console.gray(shortestDescription.description))
 
-console.header("move with the longest description @ " + console.red(longestDesc.description.length) + " character")
-console.move(longestDesc)
+console.header("move with the longest description")
+console.log(console.white(longestDesc.name) + " @ " + console.red(longestDesc.description.length) + " characters")
+console.move(longestDesc);
 
 //==================================================================
 // Find all the moves the have the "replaces" key, that point to another move

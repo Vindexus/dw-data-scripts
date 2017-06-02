@@ -20,7 +20,7 @@ console.label("Base HP", cls.base_hp)
 console.label("Base Load", cls.load)
 console.log("Look".yellow + " " + "choose one from each".gray)
 cls.looks.forEach(function (looks, i) {
-  console.log("  %s", looks.join(", "))
+  console.log("   %s", looks.join(", "))
 })
 
 //List their races and moves
@@ -95,3 +95,10 @@ var hnsMoves = classMoves.reduce(function (num, move) {
   return num
 }, 0)
 console.label("Hack & Slash Moves", hnsMoves)
+
+console.header("gear choices")
+cls.gear_choices.forEach(function (gc) {
+  console.log(gc.label.bold);
+  console.log(gc.list.join("\n"));
+  console.log(" ");
+})
