@@ -1,6 +1,9 @@
 var dw = require('dungeonworld-data')
 var console = require('./lib/console')
-var {elipses, rightpad} = require('./lib/helpers');
+var helpers = require('./lib/helpers');
+
+var elipses = helpers.elipses;
+var rightpad = helpers.rightpad;
 
 var cname = process.argv[2]
 
@@ -10,8 +13,10 @@ if(!cname || cname.length == 0) {
   console.log(("Picking random class:  " + cname + " ").bgMagenta)
 }
 
-var cls = dw.basicData.classes[cname]
 
+console.log(Object.keys(dw.basicData))
+
+var cls = dw.basicData.classes[cname]
 
 //Let's combine all the class's moves into one array
 var moveLists = ['starting_moves', 'race_moves', 'advanced_moves_1', 'advanced_moves_2']
@@ -114,6 +119,6 @@ console.h2("GEAR CHOICES")
 cls.gear_choices.forEach(function (gc) {
   console.log(gc.label.bold);
   console.log(gc.list.map(function (choice) {
-    return " " + choice
+    return " - " + choice
   }).join("\n"));
 })
