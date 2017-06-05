@@ -13,9 +13,6 @@ if(!cname || cname.length == 0) {
   console.log(("Picking random class:  " + cname + " ").bgMagenta)
 }
 
-
-console.log(Object.keys(dw.basicData))
-
 var cls = dw.basicData.classes[cname]
 
 //Let's combine all the class's moves into one array
@@ -55,7 +52,7 @@ for(var j = 0; j < classMoves.length; j++) {
     dabblerLevel++
   }
 }
-console.labeldots("Multiclass Moves", dabblerLevel)
+console.labeldots("Multiclass Moves", dabblerLevel);
 
 //Count all moves that mention "Parley"
 //This would be more accurate if you used the raw game data and searched for "{{move 'parley'}}" instead of through the basic data
@@ -76,6 +73,22 @@ var hnsMoves = classMoves.reduce(function (num, move) {
   return num
 }, 0)
 console.labeldots("Hack & Slash Moves", hnsMoves)
+
+var drMoves = classMoves.reduce(function (num, move) {
+  if(move.description.indexOf('Discern Realities') >= 0) {
+    num++
+  }
+  return num
+}, 0)
+console.labeldots("Discern Realities Moves", drMoves)
+
+var slMoves = classMoves.reduce(function (num, move) {
+  if(move.description.indexOf('Spout Lore') >= 0) {
+    num++
+  }
+  return num
+}, 0)
+console.labeldots("Spout Lore Moves", slMoves)
 
 console.log("Look".red + " " + "choose one from each".gray)
 cls.looks.forEach(function (looks, i) {
@@ -110,12 +123,13 @@ else {
 }
 
 
-console.h2("STARTING MOVES")
+console.h2("STARTING MOVES".bold)
 cls.starting_moves.forEach((move) => {
-  console.log(rightpad(move.name, 20, '.'), elipses(move.description, 59).gray);
+  console.log(move.name, elipses(move.description, 59).gray);
 });
 
-console.h2("GEAR CHOICES")
+console.h2("GEAR")
+console.log(cls.starting_gear);
 cls.gear_choices.forEach(function (gc) {
   console.log(gc.label.bold);
   console.log(gc.list.map(function (choice) {
